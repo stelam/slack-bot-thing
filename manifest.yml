@@ -1,0 +1,10 @@
+---
+applications:
+- name: slack-bot-thing
+  memory: 96MB
+  instances: 1
+  disk_quota: 96M
+  timeout: 60
+  buildpack: https://github.com/cloudfoundry/nodejs-buildpack.git#v1.6.45
+  command: node src/index.js
+  health-check-type: process
