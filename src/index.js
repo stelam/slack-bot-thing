@@ -40,8 +40,6 @@ app.post('/command', (req, res) => {
   // extract the slash command text, and trigger ID from payload
   const { text, trigger_id } = req.body;
 
-  console.log(process.env.SLACK_ACCESS_TOKEN);
-
   // Verify the signing secret
   if (signature.isVerified(req)) {
     // create the dialog payload - includes the dialog structure, Slack API token,
