@@ -108,6 +108,8 @@ app.post('/interactive', (req, res) => {
     // immediately respond with a empty 200 response to let
     // Slack know the command was received
     res.send('');
+    
+    console.log(body.user);
 
     // create Helpdesk ticket
     ticket.create(body.user.id, body.submission);

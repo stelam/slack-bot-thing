@@ -15,7 +15,7 @@ const sendConfirmation = (ticket) => {
     text: 'Helpdesk ticket created!',
     attachments: JSON.stringify([
       {
-        title: `Ticket created for ${ticket.userEmail}`,
+        title: `Ticket created for ${ticket.userId} (${ticket.userEmail})`,
         // Get this from the 3rd party helpdesk system
         title_link: 'http://example.com',
         text: ticket.text,
@@ -57,6 +57,7 @@ const create = (userId, submission) => {
   const fetchUserEmail = new Promise((resolve, reject) => {
     users.find(userId).then((result) => {
       debug(`Find user: ${userId}`);
+      console.log(result.data.user.profile);
       resolve(result.data.user.profile.email);
     }).catch((err) => { reject(err); });
   });
