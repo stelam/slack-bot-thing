@@ -2,6 +2,7 @@ const axios = require('axios');
 const debug = require('debug')('slash-command-template:type');
 const qs = require('querystring');
 const apiUrl = 'https://slack.com/api';
+const users = require('./users');
 
 
 const displayDialog = (dialogType, reqBody, res) => {
@@ -64,7 +65,26 @@ const displayDialog = (dialogType, reqBody, res) => {
 }
 
 const addType = (body) => {
+  const type = {};
   
+  const newType = JSON.parse(body.submission.json.replace(/(\r\n|\n|\r)/gm, ""));
+  const newTypeRaw = body.submission.json;
+  const userId = body.user.id;
+  console.log(body.submission);
+  
+  type.name = 'test';
+  /*
+	name: 'name'
+	createdBy: 'creator',
+	createdAt: 'date',
+	updatedAt: 'date',
+	updatedBy: 'updater',
+	version: '1',
+	tags: [tag1, tag2],
+	id: 'id',
+	fields: [],
+	rawJsonFields: '[]',
+  */
 }
 
 module.exports = { displayDialog, addType };
