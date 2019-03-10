@@ -1,11 +1,12 @@
 const axios = require('axios');
 const debug = require('debug')('slash-command-template:type');
 const qs = require('querystring');
+const apiUrl = 'https://slack.com/api';
 
 
 const displayDialog = (dialogType, reqBody, res) => {
     const {trigger_id, text} = reqBody;
-  
+    
     if (dialogType === 'add') {
   
   
@@ -37,10 +38,10 @@ const displayDialog = (dialogType, reqBody, res) => {
               options: [
                 { label: 'No', value: 'no' },
                 { label: 'Yes', value: 'yes' }
-              ],
-            },
-          ],
-        }),
+              ]
+            }
+          ]
+        })
       };
     
       
@@ -48,6 +49,7 @@ const displayDialog = (dialogType, reqBody, res) => {
       // open the dialog by calling dialogs.open method and sending the payload
       axios.post(`${apiUrl}/dialog.open`, qs.stringify(dialog))
         .then((result) => {
+          console.log(result);
           debug('dialog.open: %o', result.data);
           res.send('');
         }).catch((err) => {

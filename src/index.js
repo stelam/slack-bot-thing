@@ -46,7 +46,7 @@ app.post('/command', (req, res) => {
  
   // Handle the slash command
   if (signature.isVerified(req)) {
-    if (command === "things-add-type") type.displayDialog('add', req.body, res);
+    if (command === "/things-add-type") type.displayDialog('add', req.body, res);
     console.log(command);
   } else {
     debug('Verification token mismatch');
