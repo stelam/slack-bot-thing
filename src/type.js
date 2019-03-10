@@ -14,8 +14,8 @@ const displayDialog = (dialogType, reqBody, res) => {
         token: process.env.SLACK_ACCESS_TOKEN,
         trigger_id,
         dialog: JSON.stringify({
-          title: 'Submit a helpdesk ticket',
-          callback_id: 'submit-ticket',
+          title: 'Add a new type of thing',
+          callback_id: 'add-type',
           submit_label: 'Submit',
           elements: [
             {

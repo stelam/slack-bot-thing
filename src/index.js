@@ -127,13 +127,13 @@ app.post('/interactive', (req, res) => {
     res.send('');
     
     
-    // test
-    console.log(req.body);
-    let testJson = JSON.parse(body.submission.json.replace(/(\r\n|\n|\r)/gm, ""));
-    console.log(testJson[0].APPLICATION_NAME);
-
-    // create Helpdesk ticket
-    ticket.create(body.user.id, body.submission);
+    // Process dialog submission, depending on callback_id
+    if (body.callback_id === 'add-type') {
+      const newType = JSON.parse(body.submission.json.replace(/(\r\n|\n|\r)/gm, ""));
+      const newTypeRaw = body.submission.json;
+      ticket.create(body.user.id, body.submission);
+    }
+    
   } else {
     debug('Token mismatch');
     res.sendStatus(404);
