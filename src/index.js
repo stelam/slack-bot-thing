@@ -128,8 +128,8 @@ app.post('/interactive', (req, res) => {
     
     
     // test
-    
-    console.log(body.submission.json);
+    let testJson = JSON.parse(body.submission.json.replace(/(\r\n|\n|\r)/gm, ""));
+    console.log(testJson[0].APPLICATION_NAME);
 
     // create Helpdesk ticket
     ticket.create(body.user.id, body.submission);
