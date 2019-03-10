@@ -28,6 +28,7 @@ const displayDialog = (dialogType, reqBody, res) => {
             {
               label: 'JSON',
               type: 'textarea',
+              max_length: 3000,
               name: 'json',
               hint: 'JSON representation of the new type'
             },
