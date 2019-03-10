@@ -83,12 +83,13 @@ const addType = (body) => {
   type.fields = typeFields;
   type.fieldsRaw = typeFieldsRaw;
   
-  MongoClient.connect("mongodb://slack-bot-thing:Welcome1!@ds147905.mlab.com:47905/slack-bot-thing", (err, db) => {
+  MongoClient.connect("mongodb://slack-bot-thing:Welcome1!@ds147905.mlab.com:47905/slack-bot-thing", (err, client) => {
 
-    var document = {name:"David", title:"About MongoDB"};
+    const db = client.db('slack-bot-thing');
     
     db.collection('types').insert(type, {w: 1}, (err, doc) => {
       console.log(doc);
+      client.close();
     });
     
 
