@@ -3,7 +3,7 @@ const debug = require('debug')('slash-command-template:type');
 const qs = require('querystring');
 const apiUrl = 'https://slack.com/api';
 const users = require('./users');
-
+const MongoClient = require('mongodb').MongoClient;
 
 const displayDialog = (dialogType, reqBody, res) => {
     const {trigger_id, text} = reqBody;
@@ -67,16 +67,42 @@ const displayDialog = (dialogType, reqBody, res) => {
 const addType = (body) => {
   const type = {};
   
-  console.log(body.submission);
+  console.log(body);
   
-  console.log(body.submission.json.replace(/(\r\n|\n|\r)/gm, ""));
   
-  const newType = JSON.parse(body.submission.json.replace(/(\r\n|\n|\r)/gm, ""));
-  const newTypeRaw = body.submission.json;
+  const typeFields = JSON.parse(body.submission.json.replace(/(\r\n|\n|\r)/gm, ""));
+  const typeFieldsRaw = body.submission.json;
   const userId = body.user.id;
-  console.log(body.submission);
   
   type.name = body.submission.typeName;
+  type.createdBy = userId;
+  type.createdAt = + new Date();
+  type.updatedAt = + new Date();
+  type.updatedBy = userId;
+  type.version = 1;
+  type.fields = typeFields;
+  type.fieldsRaw = typeFieldsRaw;
+  
+  MongoClient.connect("mongodb://slack-bot-thing:Welcome1!@ds147905.mlab.com:47905/slack-bot-thing", (err, db) => {
+
+      db.collection('Persons', (err, collection) => {
+
+          collection.insert({ id: 1, firstName: 'Steve', lastName: 'Jobs' });
+          collection.insert({ id: 2, firstName: 'Bill', lastName: 'Gates' });
+          collection.insert({ id: 3, firstName: 'James', lastName: 'Bond' });
+
+
+
+          db.collection('Persons').count(function (err, count) {
+              if (err) throw err;
+
+              console.log('Total Rows: ' + count);
+          });
+      });
+
+  });
+  
+
   /*
 	name: 'name'
 	createdBy: 'creator',
