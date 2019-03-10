@@ -7,7 +7,9 @@ const qs = require('querystring');
 const ticket = require('./ticket');
 const signature = require('./verifySignature');
 const debug = require('debug')('slash-command-template:index');
+
 const MongoClient = require('mongodb').MongoClient;
+const type = require('./type');
 
 const apiUrl = 'https://slack.com/api';
 
@@ -39,17 +41,18 @@ app.get('/', (req, res) => {
  */
 app.post('/command', (req, res) => {
   // extract the slash command text, and trigger ID from payload
-  const { text, trigger_id } = req.body;
+  const { text, trigger_id, command } = req.body;
   
-  console.log(req);
-  
-  
+ 
   // Handle the slash command
   if (signature.isVerified(req)) {
-    if (req.body.command === "addtype") 
+    if (command === "things-add-type") type.displayDialog('add', req.body, res);
+  } else {
+    debug('Verification token mismatch');
+    res.sendStatus(404);
   }
   
-
+/*
   // Verify the signing secret
   if (signature.isVerified(req)) {
     // create the dialog payload - includes the dialog structure, Slack API token,
@@ -102,6 +105,9 @@ app.post('/command', (req, res) => {
     debug('Verification token mismatch');
     res.sendStatus(404);
   }
+  
+  */
+  
 });
 
 /*
