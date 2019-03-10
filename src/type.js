@@ -4,6 +4,12 @@ const qs = require('querystring');
 
 
 const displayDialog = (dialogType, reqBody, res) => {
+    const {trigger_id, text} = reqBody;
+  
+    if (dialogType === 'add') {
+    
+    }
+  
     const dialog = {
       token: process.env.SLACK_ACCESS_TOKEN,
       trigger_id,
@@ -13,11 +19,11 @@ const displayDialog = (dialogType, reqBody, res) => {
         submit_label: 'Submit',
         elements: [
           {
-            label: 'Title',
+            label: 'Name of the new type of things',
             type: 'text',
             name: 'title',
             value: text,
-            hint: '30 second summary of the problem',
+            hint: 'camelCase, no special characters',
           },
           {
             label: 'Description',
