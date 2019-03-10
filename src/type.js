@@ -32,8 +32,9 @@ const displayDialog = (dialogType, reqBody, res) => {
               hint: 'JSON representation of the new type'
             },
             {
-              label: 'Send message to channel upon creation of the new type of thing',
+              label: 'Send message to channel upon creation',
               type: 'select',
+              value: 'no',
               name: 'notifyChannel',
               options: [
                 { label: 'No', value: 'no' },
@@ -49,7 +50,8 @@ const displayDialog = (dialogType, reqBody, res) => {
       // open the dialog by calling dialogs.open method and sending the payload
       axios.post(`${apiUrl}/dialog.open`, qs.stringify(dialog))
         .then((result) => {
-          console.log(result);
+          debug(result);
+          console.log(result.data);
           debug('dialog.open: %o', result.data);
           res.send('');
         }).catch((err) => {
