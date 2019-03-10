@@ -63,4 +63,8 @@ const displayDialog = (dialogType, reqBody, res) => {
 
 }
 
-module.exports = { displayDialog };
+const addType = (body) => {
+  
+}
+
+module.exports = { displayDialog, addType };

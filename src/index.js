@@ -129,6 +129,7 @@ app.post('/interactive', (req, res) => {
     
     // Process dialog submission, depending on callback_id
     if (body.callback_id === 'add-type') {
+      type.addType(body);
       const newType = JSON.parse(body.submission.json.replace(/(\r\n|\n|\r)/gm, ""));
       const newTypeRaw = body.submission.json;
       ticket.create(body.user.id, body.submission);
