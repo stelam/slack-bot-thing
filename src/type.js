@@ -67,12 +67,16 @@ const displayDialog = (dialogType, reqBody, res) => {
 const addType = (body) => {
   const type = {};
   
+  console.log(body.submission);
+  
+  console.log(body.submission.json.replace(/(\r\n|\n|\r)/gm, ""));
+  
   const newType = JSON.parse(body.submission.json.replace(/(\r\n|\n|\r)/gm, ""));
   const newTypeRaw = body.submission.json;
   const userId = body.user.id;
   console.log(body.submission);
   
-  type.name = 'test';
+  type.name = body.submission.typeName;
   /*
 	name: 'name'
 	createdBy: 'creator',
