@@ -128,6 +128,7 @@ app.post('/interactive', (req, res) => {
     
     
     // test
+    console.log(req.body);
     let testJson = JSON.parse(body.submission.json.replace(/(\r\n|\n|\r)/gm, ""));
     console.log(testJson[0].APPLICATION_NAME);
 
