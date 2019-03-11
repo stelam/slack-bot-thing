@@ -82,8 +82,8 @@ const addType = (body) => {
   type.version = 1;
   type.fields = typeFields;
   type.fieldsRaw = typeFieldsRaw;
-  
-  MongoClient.connect("mongodb://slack-bot-thing:Welcome1!@ds147905.mlab.com:47905/slack-bot-thing", (err, client) => {
+    
+  MongoClient.connect(`mongodb://{process.env.MONGO_USER}:{process.env.MONGO_PASSWORD}@{process.env.MONGO_HOST}:{process.env.MONGO_PORT}/{process.env.MONGO_DB}`, (err, client) => {
 
     const db = client.db('slack-bot-thing');
     
