@@ -10,6 +10,7 @@ const debug = require('debug')('slash-command-template:index');
 
 const MongoClient = require('mongodb').MongoClient;
 const type = require('./type');
+const thing = require('./thing');
 
 const apiUrl = 'https://slack.com/api';
 
@@ -47,7 +48,7 @@ app.post('/command', (req, res) => {
   // Handle the slash command
   if (signature.isVerified(req)) {
     if (command === "/things-add-type") type.displayDialog('add', req.body, res);
-    console.log(command);
+    if (command === "/things-add") thing.displayDialog('add', req.body, res);
   } else {
     debug('Verification token mismatch');
     res.sendStatus(404);
