@@ -83,14 +83,13 @@ const addThing = (body) => {
 
 const getThingType = (type) => {
     
-  MongoClient.connect(`mongodb://{process.env.MONGO_USER}:{process.env.MONGO_PASSWORD}@{process.env.MONGO_HOST}:{process.env.MONGO_PORT}/{process.env.MONGO_DB}`, (err, client) => {
-    console.log(err);
+  MongoClient.connect(`mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/${process.env.MONGO_DB}`, (err, client) => {
     const db = client.db('slack-bot-thing');
     
-    db.collection('types').find({name:type}, (err, doc) => {
-      console.log(doc);
-      client.close();
-    });
+    let result = db.collection('types').find({name:type});
+    console.log(result);
+    client.close();
+
   });
   
 
