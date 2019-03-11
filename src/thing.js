@@ -5,11 +5,12 @@ const apiUrl = 'https://slack.com/api';
 const users = require('./users');
 const MongoClient = require('mongodb').MongoClient;
 
-const displayDialog = (dialogType, reqBody, res) => {
+const displayDialog = async (dialogType, reqBody, res) => {
     const {trigger_id, text} = reqBody;
   
-    getThingType('pop');
-    
+    let type = await getThingType('pop');
+    console.log(type);
+  
     if (dialogType === 'add') {
       
       
@@ -81,18 +82,14 @@ const addThing = (body) => {
 }
 
 
-const getThingType = (type) => {
+const getThingType = async (type) => {
     
-  MongoClient.connect(`mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/${process.env.MONGO_DB}`, (err, client) => {
+  return await MongoClient.connect(`mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/${process.env.MONGO_DB}`, async (err, client) => {
     const db = client.db('slack-bot-thing');
-    
-    let result = db.collection('types').find({name:type});
-    console.log(result);
-    client.close();
-
+    console.log("in");
+    return await db.collection('types').findOne({name:type});
   });
   
-
 }
 
 module.exports = { displayDialog, addThing };
