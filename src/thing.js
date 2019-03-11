@@ -8,7 +8,7 @@ const MongoClient = require('mongodb').MongoClient;
 const displayDialog = async (dialogType, reqBody, res) => {
     const {trigger_id, text} = reqBody;
   
-    let type = await getThingType('pop');
+    let type = await getThingType('ticket');
     console.log(type);
   
     if (dialogType === 'add') {
@@ -23,32 +23,7 @@ const displayDialog = async (dialogType, reqBody, res) => {
           title: 'Add a new type of thing',
           callback_id: 'add-type',
           submit_label: 'Submit',
-          elements: [
-            {
-              label: 'Name of the new type of thing',
-              type: 'text',
-              name: 'typeName',
-              value: text,
-              hint: 'camelCase, no special characters',
-            },
-            {
-              label: 'JSON',
-              type: 'textarea',
-              max_length: 3000,
-              name: 'json',
-              hint: 'JSON representation of the new type'
-            },
-            {
-              label: 'Send message to channel upon creation',
-              type: 'select',
-              value: 'no',
-              name: 'notifyChannel',
-              options: [
-                { label: 'No', value: 'no' },
-                { label: 'Yes', value: 'yes' }
-              ]
-            }
-          ]
+          elements: type.fields
         })
       };
     
@@ -83,12 +58,17 @@ const addThing = (body) => {
 
 
 const getThingType = async (type) => {
-    
-  return await MongoClient.connect(`mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/${process.env.MONGO_DB}`, async (err, client) => {
-    const db = client.db('slack-bot-thing');
-    console.log("in");
-    return await db.collection('types').findOne({name:type});
-  });
+  
+
+  let client = await MongoClient.connect(`mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/${process.env.MONGO_DB}`);
+  let db = client.db('slack-bot-thing');
+  
+  try {
+    const result = await db.collection('types').findOne({name:type});
+    return result;
+  } finally {
+    client.close();
+  }
   
 }
 
