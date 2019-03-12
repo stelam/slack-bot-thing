@@ -20,8 +20,8 @@ const displayDialog = async (dialogType, reqBody, res) => {
         token: process.env.SLACK_ACCESS_TOKEN,
         trigger_id,
         dialog: JSON.stringify({
-          title: 'Add a new type of thing',
-          callback_id: 'add-type',
+          title: `Add a new ${type.name}`,
+          callback_id: 'add-thing',
           submit_label: 'Submit',
           elements: type.fields
         })
