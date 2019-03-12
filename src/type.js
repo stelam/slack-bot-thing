@@ -27,11 +27,11 @@ const displayDialog = (dialogType, reqBody, res) => {
               hint: 'camelCase, no special characters',
             },
             {
-              label: 'JSON',
+              label: 'Fields',
               type: 'textarea',
               max_length: 3000,
               name: 'json',
-              hint: 'JSON representation of the new type'
+              hint: 'JSON array representation of the fields of this type of thing'
             },
             {
               label: 'Send message to channel upon creation',
@@ -67,7 +67,7 @@ const displayDialog = (dialogType, reqBody, res) => {
 const addType = (body) => {
   const type = {};
   
-  //console.log(body);
+  console.log(body);
   
   
   const typeFields = JSON.parse(body.submission.json.replace(/(\r\n|\n|\r)/gm, ""));
@@ -82,6 +82,8 @@ const addType = (body) => {
   type.version = 1;
   type.fields = typeFields;
   type.fieldsRaw = typeFieldsRaw;
+  type.channel = body.channel;
+  type.processor = '';
     
   MongoClient.connect(`mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/${process.env.MONGO_DB}`, (err, client) => {
 
